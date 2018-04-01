@@ -20,10 +20,9 @@ class Draft extends Component {
     this.db = firebase.firestore();
   }
 
-  handleClick() {
+  handleClick(target) {
     const submission = this.state.draftValue;
-    this.inputDraft.value = '';
-
+    target.value = '';
     this.db.collection('notes').add({
       value: submission,
       createdAt: new Date(),
@@ -35,6 +34,11 @@ class Draft extends Component {
   }
 
   handleChange(event) {
+    if (event.key === 'Enter') {
+      this.handleClick(event.target);
+      event.preventDefault();
+      return;
+    }
     this.setState({
       draftValue: event.target.value,
     });
@@ -48,7 +52,7 @@ class Draft extends Component {
           id='draft'
           name='draft'
           value={this.draftValue}
-          onChange={this.handleChange}
+          onKeyUp={this.handleChange}
           ref={el => this.inputDraft = el}
         />
         <RaisedButton label="Save" primary={true} onClick={this.handleClick} />
