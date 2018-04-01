@@ -23,6 +23,8 @@ class App extends Component {
       authDomain: 'note-th.firebaseapp.com',
       projectId: 'note-th',
     });
+
+    console.log('note-th_v1');
   }
 
   componentWillMount() {
