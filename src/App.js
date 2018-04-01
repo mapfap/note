@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import CircularProgress from 'material-ui/CircularProgress';
 import Swal from 'sweetalert2';
-// import moment from 'moment';
+import moment from 'moment';
 import 'firebase/firestore';
 import firebase from 'firebase';
 import Note from './note/Note';
@@ -27,7 +27,6 @@ class App extends Component {
 
   componentWillMount() {
     this.db = firebase.firestore();
-
     this.unsubscribe = this.db.collection('notes').onSnapshot((snapshot) => {
       const newNotes = this.state.notes;
 
@@ -65,7 +64,13 @@ class App extends Component {
           {loader}
           <div className="notes">
             {
-              Object.keys(this.state.notes).map((k) => {
+              Object.keys(this.state.notes)
+              .sort((a, b) => {
+                const dataA = this.state.notes[a].data();
+                const dataB = this.state.notes[b].data();
+                return moment(dataB.createdAt) - moment(dataA.createdAt);
+              })
+              .map((k) => {
                 const data = this.state.notes[k].data();
                 return (
                   <Note

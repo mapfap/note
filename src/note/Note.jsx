@@ -27,6 +27,9 @@ class Note extends Component {
   }
 
   render() {
+    if (!this.noteValue || !this.noteCreatedAt) {
+      return ('');
+    }
     return (
       <Card key={this.noteId}>
         <CardHeader
@@ -39,9 +42,9 @@ class Note extends Component {
 }
 
 Note.propTypes = {
-  noteId: PropTypes.string.isRequired,
-  noteValue: PropTypes.string.isRequired,
-  noteCreatedAt: PropTypes.instanceOf(Date).isRequired,
+  noteId: PropTypes.string,
+  noteValue: PropTypes.string,
+  noteCreatedAt: PropTypes.instanceOf(Date),
 };
 
 export default Note;
